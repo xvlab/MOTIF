@@ -86,22 +86,3 @@ end
 handles = get(groot, 'Children');
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        

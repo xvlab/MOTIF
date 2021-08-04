@@ -15,7 +15,7 @@ fn = fullfile(pathname, filename);
 
 FileTif = fn;
 InfoImage = imfinfo(FileTif);
-mImage = InfoImage(1) .Width;
+mImage = InfoImage(1).Width;
 nImage = InfoImage(1).Height;
 NumberImages = length(InfoImage); %È«²¿load
 %  NumberImages=1000;
@@ -35,7 +35,7 @@ clear raw_data;
 
 %% mask without deformation
 tif_img = squeeze(raw_data_r(:, :, 1)); figure;
-imshow(tif_img, [0, 2000]);
+imshow(tif_img, []);
 mouse = imrect;
 pos1 = getPosition(mouse);
 mouse = imrect;
@@ -73,7 +73,7 @@ for i = 1:size(tif_img, 1) %ordinate
         end
     end
 end
-figure; imshow(tif_img, [0, 2000]);
+figure; imshow(tif_img, []);
 
 mask_data = zeros(size(raw_data_r, 1), size(raw_data_r, 2), size(raw_data_r, 3));
 for idx = 1:size(raw_data_r, 3)
@@ -118,7 +118,8 @@ for idx = 1:size(mask_data_short, 3)
     mask_data_resize(:, :, idx) = imresize(squeeze(mask_data_short(:, :, idx)), [200, 200]);
 end
 clear mask_data_short;
-figure; imshow(mask_data_resize(:, :, 1), [0, 2000]);
+figure; imshow(mask_data_resize(:, :, 1), []);
+
 %% vasculature mask
 filter_parm = [50 5];
 filter_low = fspecial('average', filter_parm(1));
