@@ -3,10 +3,10 @@ clear;clc;
 
 % load directory that holds all the track files
 dirname = uigetdirs('G:\temp\Mokoghost\data\', 'Select Source Dir');
-signal_path = Preprocess(dirname, 'MAIN\black_mask.mat', 'MAIN\points.mat', false, 10, 10);
+signal_path = Preprocess(dirname, 'MAIN\black_mask.mat', 'MAIN\points.mat', true, 10, 10);
 
 %% getMotifs
-GetMotifs();
+GetMotifs(signal_path, 'L', 20);
 
 %% classify motifs and generate basic motifs
 ClassifyMotifsAndGenerateBM();

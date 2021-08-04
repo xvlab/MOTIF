@@ -1,4 +1,4 @@
-function [mask_data_resize, mask] = maskWithoutDeform(raw_data_r, mask_length, black_mask, point1, initial, varargin)
+function [mask_data_resize, mask, angleStill] = maskWithoutDeform(raw_data_r, mask_length, black_mask, point1, initial, varargin)
     % mask without deformation
     % @requires
     % raw_data_r--rotate of raw data(vertical)
@@ -50,6 +50,7 @@ function [mask_data_resize, mask] = maskWithoutDeform(raw_data_r, mask_length, b
                 end
             end
             res = figure; imshow(tif_img, []);
+            set(res, 'WindowStyle', 'docked');
             hold on
 
             satisfied = input('Satisfied(y/n)?', 's');
@@ -66,6 +67,7 @@ function [mask_data_resize, mask] = maskWithoutDeform(raw_data_r, mask_length, b
         end
     else
         mask = varargin{1};
+        angleStill = varargin{2};
     end
 
     mask_data = zeros(size(raw_data_r, 1), size(raw_data_r, 2), size(raw_data_r, 3));

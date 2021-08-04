@@ -1,23 +1,19 @@
-function ClassifyMotifsAndGenerateBM()
+function ClassifyMotifsAndGenerateBM(filepath)
     %classify motifs and generate basic motifs
     clear;clc;
-    filepath = '\\192.168.3.146\public\临时文件\xpy\fpCNMF\resultMotifs\'; %文件夹的路径
-    gp = 'genparamss';
+    gp = 'parameters';
     files = dir([filepath, '*.mat']);
+    folderCell = {files.folder};
+    nameCell = {files.name};
     class_num = size(files, 1);
     opts = loadobj(feval(gp));
-    W = zeros(200 * 200, class_num, 10);
+    W = zeros(opts.pixel_dim(1) * opts.pixel_dim(2), class_num, 10);
     counter = 0;
-    for i = 1:16 %n是要读入的文件的个数
-        for j = 1:opts.K
-            if exist([filepath 'temp' num2str(i) '_' num2str(j) '.mat'], 'file')
-                counter = counter + 1;
-                load([filepath 'temp' num2str(i) '_' num2str(j) '.mat'], 'temp');
-                %             disp(size(temp));
-                temp_reshape = reshape(temp, [200 * 200, size(temp, 3)]);
-                W(:, counter, :) = temp_reshape;
-            end
-        end
+    for i = 1:class_num
+        load([folderCell{i} nameCell{i}], 'temp');
+        counter = counter + 1;
+        temp_reshape = reshape(temp, [opts.pixel_dim(1) * opts.pixel_dim(2), size(temp, 3)]);
+        W(:, counter, :) = temp_reshape;
     end
     [W_basis, kval, ovr_q, cluster_idx, idx_knn, tcorr_mat, handles, lag_mat, lags, nanpxs] = ClusterW(W, opts, []);
     save('W_basis.mat', 'W_basis');

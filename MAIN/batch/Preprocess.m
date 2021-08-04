@@ -1,4 +1,4 @@
-function signal_path = Preprocess(dir_paths, mask_path, points_path, gsr, sampleNumber, fs)
+function signal_path = Preprocess(dir_paths, mask_path, points_path, ifGSR, sampleNumber, fs)
     % @requires
     % dir_paths--dir paths that point to the dirs store tiff track files, should be a cell(1*num of dirs)
     % mask_path--the path of a binary mask of the standard brain
@@ -13,6 +13,7 @@ function signal_path = Preprocess(dir_paths, mask_path, points_path, gsr, sample
     typename = '*.tif';
     mask_length = point2(2) - point1(2);
     tiffnum = 0;
+    signal_path = {};
     for i = 1:size(dir_paths, 2)
         pathname = dir_paths(1, i);
         pathname = pathname{1} + "\";
@@ -24,15 +25,20 @@ function signal_path = Preprocess(dir_paths, mask_path, points_path, gsr, sample
             % load tiff sample
             raw_data_r = loadTiff(pathname, namePositiveCell{k}, fs, sampleNumber, false);
             % mask without deformation
-            [mask_data_resize, mask] = maskWithoutDeform(raw_data_r, mask_length, black_mask, point1, true);
+            [mask_data_resize, mask, angleStill] = maskWithoutDeform(raw_data_r, mask_length, black_mask, point1, true);
+            clc;
             % vasculature mask
-            [~, fig] = vasculatureMask(mask_data_resize);
+            [~, figs] = vasculatureMask(mask_data_resize);
+            clc;
             name = namePositiveCell{k};
             name = name(1:end - 8);
-            save([pathname name], 'fig', 'mask');
+            mat_name = name + ".mat";
+            mat_name = char(mat_name);
+            signal_path{tiffnum} = [pathname mat_name];
+            save([pathname name], 'figs', 'mask', 'angleStill');
         end
     end
-    signal_path = cell(1, tiffnum);
+    clear raw_data_r mask_data_resize mask figs name mat_name pathname dtPositive namePositiveCell angleStill;
     tiffnum = 0;
     for i = 1:size(dir_paths, 2)
         pathname = dir_paths(1, i);
@@ -40,19 +46,21 @@ function signal_path = Preprocess(dir_paths, mask_path, points_path, gsr, sample
         pathname = char(pathname);
         dtPositive = dir([pathname typename]);
         namePositiveCell = {dtPositive.name};
-        load([pathname name], 'fig', 'mask');
         for k = 1:length(namePositiveCell)
             tiffnum = tiffnum + 1;
+            load(signal_path{tiffnum}, 'figs', 'mask', 'angleStill');
             % load tiff sample
-            raw_data_r = loadTiff(pathname, namePositiveCell{k}, fs, sampleNumber, true);
+            raw_data_r = loadTiff(pathname, namePositiveCell{k}, fs, sampleNumber, false);
             % mask without deformation
-            [mask_data_resize, mask] = maskWithoutDeform(raw_data_r, mask_length, black_mask, point1, true, mask);
+            [mask_data_resize, ~, ~] = maskWithoutDeform(raw_data_r, mask_length, black_mask, point1, false, mask, angleStill);
+            clc;
             % vasculature mask
             data_vc = mask_data_resize .* figs.binary;
             % df/f0
             signal = dfDivideF0(data_vc);
+            clc;
             % GSR
-            if gsr
+            if ifGSR
                 signal = gsr(signal);
             end
             name = namePositiveCell{k};
@@ -60,7 +68,6 @@ function signal_path = Preprocess(dir_paths, mask_path, points_path, gsr, sample
             mat_name = name + ".mat";
             mat_name = char(mat_name);
             delete([pathname mat_name]);
-            signal_path{tiffnum} = [pathname name];
             save([pathname name], 'signal');
         end
     end
