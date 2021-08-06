@@ -1,11 +1,11 @@
-function raw_data_r = loadTiff(pathname,filename,fs,number,ifAll)
+function raw_data_r = loadTiff(pathname, filename, number, ifAll)
     % load tiff sample
-    % @requires 
+    % @requires
     % pathname--name of path
     % filename--name of file, typename shouldn't be excluded
-    % fs--frequency of sampling
     % number--frames to be take
     % ifAll--if take all frames of this tiff
+    %
     % @returns
     % raw_data_r--rotate of raw data(vertical)
     fn = fullfile(pathname, filename);
@@ -14,7 +14,7 @@ function raw_data_r = loadTiff(pathname,filename,fs,number,ifAll)
     mImage = InfoImage(1).Width;
     nImage = InfoImage(1).Height;
     if ifAll
-        number=length(InfoImage);
+        number = length(InfoImage);
     end
     FinalImage = zeros(nImage, mImage, number, 'uint16');
     TifLink = Tiff(FileTif, 'r');

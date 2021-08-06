@@ -7,6 +7,7 @@ function [mask_data_resize, mask, angleStill] = maskWithoutDeform(raw_data_r, ma
     % point1--the upper point of the standard brain
     % initial--if initial is true, then run the point choosing code, else let mask be the
     % designated mask in varargin
+    %
     % @returns
     % mask_data_resize--data after mask without deformation but resize to 200*200 and
     % rotate to vertical
