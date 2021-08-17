@@ -1,7 +1,7 @@
 %make a video for basic motifs and save them
 clear;clc;
-load('D:\mokoghost\fpCNMF\Results\W_basis.mat','W_basis');
-W=reshape(W_basis,[171,171,size(W_basis,2),size(W_basis,3)]);
+load('G:\temp\Mokoghost\fpCNMF\Results\thy1-gcamp6s-m2-0114-2(motif-2s)\thy1-gcamp6s-m2-0114-2_MMStack_Pos0\results\W_basis.mat','W_basis');
+W=reshape(W_basis,[200,200,size(W_basis,2),size(W_basis,3)]);
 filename="basic motif.gif";
 for i = 1:size(W,3)
     filename="basic motif"+i+".gif";
