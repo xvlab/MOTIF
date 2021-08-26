@@ -4,10 +4,10 @@ H = table2array(strength(:,2))';
 
 H_airpuff = zeros(size(H, 1), 200);
 for i = 4:size(sync2, 1)
-    num_shift = round((sync2(i, 1) - sync1(1, 1)) / 0.1) - 10;
+    num_shift = round((sync2(i, 1) - sync1(1, 1)) / 0.1);
     nearest = 0;
     min = 1000;
-    for j = num_shift:num_shift + 20
+    for j = num_shift - 200:num_shift + 200
         if abs(sync1(j, 1) - sync2(i, 1)) < min
             min = abs(sync1(j, 1) - sync2(i, 1));
             nearest = j;

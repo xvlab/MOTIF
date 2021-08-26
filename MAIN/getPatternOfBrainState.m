@@ -2,12 +2,12 @@
 % get the pattern of motifs transforming through brain states during
 % sleeping
 clear;clc;
-load('D:\mokoghost\fpCNMF\Results\thy1-gcamp6s-m2-0112-3\H_test.mat', 'H');
+load('G:\temp\Mokoghost\fpCNMF\Results\thy1-gcamp6s-m2-0112-3\H_test.mat', 'H');
 load('Synchron\thy1-gcamp6s-m2-0112-3\brainstates.mat', 'sync', 'brainState_01');
 H_sync_brainstate = zeros(size(H, 1) + 1, size(H, 2));
 for i = 1:size(H, 2)
     H_sync_brainstate(1:14, i) = H(:, i);
-    H_sync_brainstate(15, i) = brainState_01(floor(sync(i) / 5) + 1);
+    H_sync_brainstate(15, i) = brainState_01(floor(sync(i) / 5) + 1,1);
 end
 save("H_sync_brainstate", 'H_sync_brainstate');
 motif_threshold = 0.12;

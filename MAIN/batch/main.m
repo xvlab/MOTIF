@@ -3,7 +3,7 @@ dirname = uigetdirs('G:\temp\Mokoghost\data\', 'Select Source Dir');
 % preprocess
 
 load directory that holds all the track files
-signal_path = Preprocess(dirname, 'MAIN\black_mask.mat', 'MAIN\points.mat', true, 10);
+signal_path = Preprocess(dirname, 'MAIN\black_mask.mat', 'MAIN\points.mat', true, 10,0,0);
 
 % getMotifs
 close all;
