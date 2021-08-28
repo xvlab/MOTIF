@@ -50,18 +50,24 @@ for maskNum = 1:size(mask, 3)
         h = drawfreehand('Position', pos, 'Color', 'r');
         h.FaceAlpha = 1;
     end
-    goon = input('Go on?(press any bottom to go on)', 's');
-
+    goon = input('Go on?(s=skip this IC)', 's');
+    if strncmp(goon, 's', 1)
+        continue
+    end
     % Convert edited ROI back to masks.
     hfhs = findobj(gca, 'Type', 'images.roi.Freehand');
-    editedMask = false([size(mask(:, :, 2)) length(hfhs)]);
+    editedMask = false([size(mask(:, :, 1)) length(hfhs)]);
 
     for ind = 1:numel(hfhs)
         editedMask(:, :, ind) = hfhs(ind).createMask();
         boundaryLocation = hfhs(ind).Position;
     end
+
     for i = 1:size(editedMask, 3)
         close all;
+        if sum(sum(editedMask(:, :, i))) == 0
+            continue;
+        end
         s = regionprops(editedMask(:, :, i), 'Centroid');
         centroids = cat(1, s.Centroid);
         em = imdisp(editedMask(:, :, i));
