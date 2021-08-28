@@ -8,8 +8,8 @@
         "files.encoding": "gb2312"
         },
     "code-runner.runInTerminal":true,
-    "matlab.mlintpath":"c:\\Program Files\\Polyspace\\R2019b\\bin\\win64\\mlint.exe",
-    "matlab.matlabpath":"c:\\Program Files\\Polyspace\\R2019b\\bin\\matlab.exe",
+    "matlab.mlintpath":"c:\\Program Files\\Matlab\\R2020b\\bin\\win64\\mlint.exe",
+    "matlab.matlabpath":"c:\\Program Files\\Matlab\\R2020b\\bin\\matlab.exe",
     "code-runner.executorMap":{
         "javascript": "node",
         "java": "cd $dir && javac $fileName && java $fileNameWithoutExt",
